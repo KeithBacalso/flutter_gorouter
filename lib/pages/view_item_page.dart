@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class ViewItemPage extends StatelessWidget {
@@ -6,8 +5,9 @@ class ViewItemPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(title: const Text('View Item Page')),
+      body: const Center(
         child: Text('View Item Page'),
       ),
     );

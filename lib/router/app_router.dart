@@ -52,12 +52,15 @@ class AppRouter {
         path: PAGE.signin.path,
         name: PAGE.signin.name,
         builder: _signinPage,
+        routes: [
+          GoRoute(
+            path: PAGE.signup.path,
+            name: PAGE.signup.name,
+            builder: _signupPage,
+          ),
+        ],
       ),
-      GoRoute(
-        path: PAGE.signup.path,
-        name: PAGE.signup.name,
-        builder: _signupPage,
-      ),
+
       GoRoute(
         path: PAGE.onboarding.path,
         name: PAGE.onboarding.name,
@@ -80,7 +83,7 @@ class AppRouter {
           ),
         ],
       ),
-      
+
       //* This error page inside routes is used for manually navigating the user here.
       GoRoute(
         path: PAGE.error.path,
@@ -91,6 +94,7 @@ class AppRouter {
     errorBuilder: (context, state) => ErrorPage(error: state.extra.toString()),
     redirect: (context, state) {
       final loginLocation = PAGE.signin.path;
+      final registerLocation = PAGE.signup.path;
       final homeLocation = PAGE.home.path;
       final splashLocation = PAGE.splash.path;
       final onboardLocation = PAGE.onboarding.path;
@@ -101,6 +105,7 @@ class AppRouter {
 
       final isInLoginPage = state.subloc == loginLocation;
       final isInInitializePage = state.subloc == splashLocation;
+      final isInSignupPage = state.subloc == '$loginLocation/$registerLocation';
       final isInOnboardingPage = state.subloc == onboardLocation;
 
       if (!isInitialized && !isInInitializePage) {
@@ -111,7 +116,11 @@ class AppRouter {
         return onboardLocation;
       }
 
-      if (isInitialized && isOnboarded && !isLoggedIn && !isInLoginPage) {
+      if (isInitialized &&
+          isOnboarded &&
+          !isLoggedIn &&
+          !isInLoginPage &&
+          !isInSignupPage) {
         return loginLocation;
       }
 

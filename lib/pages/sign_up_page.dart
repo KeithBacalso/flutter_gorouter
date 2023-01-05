@@ -5,9 +5,10 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Sign Up Page'),
+    return  Scaffold(
+      appBar: AppBar(title: const Text('Signup Page')),
+      body: const Center(
+        child: Text('Signup Page'),
       ),
     );
   }

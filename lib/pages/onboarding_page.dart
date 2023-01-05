@@ -15,12 +15,7 @@ class OnboardingPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // final userBox = Hive.box('user');
-            // userBox.put('isOnboarded', true);
-
             context.read<UserCubit>().onboard();
-
-            // return context.goNamed(PAGE.home.name);
           },
           child: const Text('Done'),
         ),

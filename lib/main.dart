@@ -38,15 +38,10 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return BlocBuilder<LoginCubit, LoginState>(
             builder: (context, state) {
+              final appRouter = AppRouter(context.read<UserCubit>());
+
               return MaterialApp.router(
-                routeInformationProvider: AppRouter(context.read<UserCubit>())
-                    .router
-                    .routeInformationProvider,
-                routeInformationParser: AppRouter(context.read<UserCubit>())
-                    .router
-                    .routeInformationParser,
-                routerDelegate:
-                    AppRouter(context.read<UserCubit>()).router.routerDelegate,
+                routerConfig: appRouter.router,
                 title: 'Flutter Demo',
                 theme: ThemeData(
                   primarySwatch: Colors.blue,
