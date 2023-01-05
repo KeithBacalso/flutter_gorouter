@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$UserState {
-  bool get isInitialized => throw _privateConstructorUsedError;
   bool get isOnboarded => throw _privateConstructorUsedError;
   bool get isLoggedIn => throw _privateConstructorUsedError;
 
@@ -30,7 +29,7 @@ abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
       _$UserStateCopyWithImpl<$Res, UserState>;
   @useResult
-  $Res call({bool isInitialized, bool isOnboarded, bool isLoggedIn});
+  $Res call({bool isOnboarded, bool isLoggedIn});
 }
 
 /// @nodoc
@@ -46,15 +45,10 @@ class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isInitialized = null,
     Object? isOnboarded = null,
     Object? isLoggedIn = null,
   }) {
     return _then(_value.copyWith(
-      isInitialized: null == isInitialized
-          ? _value.isInitialized
-          : isInitialized // ignore: cast_nullable_to_non_nullable
-              as bool,
       isOnboarded: null == isOnboarded
           ? _value.isOnboarded
           : isOnboarded // ignore: cast_nullable_to_non_nullable
@@ -74,7 +68,7 @@ abstract class _$$_UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       __$$_UserStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isInitialized, bool isOnboarded, bool isLoggedIn});
+  $Res call({bool isOnboarded, bool isLoggedIn});
 }
 
 /// @nodoc
@@ -88,15 +82,10 @@ class __$$_UserStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isInitialized = null,
     Object? isOnboarded = null,
     Object? isLoggedIn = null,
   }) {
     return _then(_$_UserState(
-      isInitialized: null == isInitialized
-          ? _value.isInitialized
-          : isInitialized // ignore: cast_nullable_to_non_nullable
-              as bool,
       isOnboarded: null == isOnboarded
           ? _value.isOnboarded
           : isOnboarded // ignore: cast_nullable_to_non_nullable
@@ -112,14 +101,8 @@ class __$$_UserStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_UserState implements _UserState {
-  const _$_UserState(
-      {this.isInitialized = false,
-      this.isOnboarded = false,
-      this.isLoggedIn = false});
+  const _$_UserState({this.isOnboarded = false, this.isLoggedIn = false});
 
-  @override
-  @JsonKey()
-  final bool isInitialized;
   @override
   @JsonKey()
   final bool isOnboarded;
@@ -129,7 +112,7 @@ class _$_UserState implements _UserState {
 
   @override
   String toString() {
-    return 'UserState(isInitialized: $isInitialized, isOnboarded: $isOnboarded, isLoggedIn: $isLoggedIn)';
+    return 'UserState(isOnboarded: $isOnboarded, isLoggedIn: $isLoggedIn)';
   }
 
   @override
@@ -137,8 +120,6 @@ class _$_UserState implements _UserState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserState &&
-            (identical(other.isInitialized, isInitialized) ||
-                other.isInitialized == isInitialized) &&
             (identical(other.isOnboarded, isOnboarded) ||
                 other.isOnboarded == isOnboarded) &&
             (identical(other.isLoggedIn, isLoggedIn) ||
@@ -146,8 +127,7 @@ class _$_UserState implements _UserState {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isInitialized, isOnboarded, isLoggedIn);
+  int get hashCode => Object.hash(runtimeType, isOnboarded, isLoggedIn);
 
   @JsonKey(ignore: true)
   @override
@@ -157,13 +137,9 @@ class _$_UserState implements _UserState {
 }
 
 abstract class _UserState implements UserState {
-  const factory _UserState(
-      {final bool isInitialized,
-      final bool isOnboarded,
-      final bool isLoggedIn}) = _$_UserState;
+  const factory _UserState({final bool isOnboarded, final bool isLoggedIn}) =
+      _$_UserState;
 
-  @override
-  bool get isInitialized;
   @override
   bool get isOnboarded;
   @override

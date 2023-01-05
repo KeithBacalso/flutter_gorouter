@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_router/cubit/user_cubit.dart';
 
-import 'cubit/login_cubit.dart';
 import 'router/app_router.dart';
 
 Future<void> main() async {
@@ -25,19 +24,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => UserCubit()..initialize(),
-        ),
-        BlocProvider(
-          create: (_) => LoginCubit(),
-        ),
-      ],
+    return BlocProvider(
+          create: (_) => UserCubit(),
+        
       child: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
-          return BlocBuilder<LoginCubit, LoginState>(
-            builder: (context, state) {
               final appRouter = AppRouter(context.read<UserCubit>());
 
               return MaterialApp.router(
@@ -47,8 +38,6 @@ class MyApp extends StatelessWidget {
                   primarySwatch: Colors.blue,
                 ),
               );
-            },
-          );
         },
       ),
     );

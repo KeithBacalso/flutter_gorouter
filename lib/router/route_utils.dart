@@ -1,6 +1,5 @@
 enum PAGE {
   home(path: '/', name: 'Home'),
-  splash(path: '/splash', name: 'Splash'),
   signin(path: '/signin', name: 'Signin'),
   signup(path: 'signup', name: 'Signup'),
   onboarding(path: '/onboarding', name: 'Onboarding'),

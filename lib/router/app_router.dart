@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:my_router/cubit/login_cubit.dart';
 
 import '../cubit/user_cubit.dart';
 import '../pages/error_page.dart';
@@ -12,7 +9,6 @@ import '../pages/home_page.dart';
 import '../pages/onboarding_page.dart';
 import '../pages/sign_in_page.dart';
 import '../pages/sign_up_page.dart';
-import '../pages/splash_page.dart';
 import '../pages/view_item_page.dart';
 import '../pages/view_profile_page.dart';
 import 'route_utils.dart';
@@ -22,8 +18,6 @@ class AppRouter {
   final UserCubit userCubit;
 
   // ===== PAGES =====
-  static Widget _splashPage(BuildContext context, GoRouterState state) =>
-      const SplashPage();
   static Widget _signinPage(BuildContext context, GoRouterState state) =>
       const SignInPage();
   static Widget _signupPage(BuildContext context, GoRouterState state) =>
@@ -43,11 +37,6 @@ class AppRouter {
     refreshListenable: GoRouterRefreshStream(userCubit.stream),
     debugLogDiagnostics: true,
     routes: [
-      GoRoute(
-        path: PAGE.splash.path,
-        name: PAGE.splash.name,
-        builder: _splashPage,
-      ),
       GoRoute(
         path: PAGE.signin.path,
         name: PAGE.signin.name,
@@ -96,36 +85,24 @@ class AppRouter {
       final loginLocation = PAGE.signin.path;
       final registerLocation = PAGE.signup.path;
       final homeLocation = PAGE.home.path;
-      final splashLocation = PAGE.splash.path;
       final onboardLocation = PAGE.onboarding.path;
 
       final isLoggedIn = userCubit.state.isLoggedIn;
-      final isInitialized = userCubit.state.isInitialized;
       final isOnboarded = userCubit.state.isOnboarded;
 
       final isInLoginPage = state.subloc == loginLocation;
-      final isInInitializePage = state.subloc == splashLocation;
       final isInSignupPage = state.subloc == '$loginLocation/$registerLocation';
       final isInOnboardingPage = state.subloc == onboardLocation;
 
-      if (!isInitialized && !isInInitializePage) {
-        return splashLocation;
-      }
-
-      if (isInitialized && !isOnboarded && !isInOnboardingPage) {
-        return onboardLocation;
-      }
-
-      if (isInitialized &&
-          isOnboarded &&
-          !isLoggedIn &&
-          !isInLoginPage &&
-          !isInSignupPage) {
+      if ((!isOnboarded || isOnboarded) && !isLoggedIn && !isInLoginPage && !isInSignupPage) {
         return loginLocation;
       }
 
+      if (isLoggedIn && !isOnboarded && !isInOnboardingPage) {
+        return onboardLocation;
+      }
+
       if ((isLoggedIn && isInLoginPage) ||
-          (isInitialized && isInInitializePage) ||
           (isOnboarded && isInOnboardingPage)) {
         return homeLocation;
       }

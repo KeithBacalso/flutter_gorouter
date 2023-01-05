@@ -8,23 +8,8 @@ part 'user_cubit.freezed.dart';
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(const UserState());
 
-  final _initBox = Hive.box('initialize');
   final _onboardBox = Hive.box('onboard');
   final _loginBox = Hive.box('login');
-
-  Future<void> initialize() async {
-    emit(state.copyWith(
-      isInitialized: _initBox.get('isInitialized') ?? false,
-      isOnboarded: _onboardBox.get('isOnboard') ?? false,
-      isLoggedIn: _loginBox.get('isLoggedIn') ?? false
-    ));
-
-    if (!state.isInitialized) {
-      await Future.delayed(const Duration(seconds: 2));
-      _initBox.put('isInitialized', true);
-      emit(state.copyWith(isInitialized: true));
-    }
-  }
 
   void onboard() {
     _onboardBox.put('isOnboard', true);
@@ -37,6 +22,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void logout() {
+    // _onboardBox.put('isOnboard', false);
     _loginBox.put('isLoggedIn', false);
     emit(state.copyWith(isLoggedIn: false));
   }
