@@ -12,11 +12,12 @@ class UserCubit extends Cubit<UserState> {
   final _loginBox = Hive.box('login');
 
   Future<void> initialize() async {
-    await Future.delayed(const Duration(seconds: 2));
-    emit(state.copyWith(
-        isInitialized: true,
-        isOnboarded: _onboardBox.get('isOnboard') ?? false,
-        isLoggedIn: _loginBox.get('isLoggedIn') ?? false));
+      await Future.delayed(const Duration(seconds: 2));
+      emit(state.copyWith(
+      isInitialized: true,
+      isOnboarded: _onboardBox.get('isOnboard') ?? false,
+      isLoggedIn: _loginBox.get('isLoggedIn') ?? false
+    ));
   }
 
   void onboard() {

@@ -96,34 +96,34 @@ class AppRouter {
       final splashLocation = PAGE.splash.path;
       final onboardLocation = PAGE.onboarding.path;
 
-      final isLoggedIn = userCubit.state.isLoggedIn;
       final isInitialized = userCubit.state.isInitialized;
+      final isLoggedIn = userCubit.state.isLoggedIn;
       final isOnboarded = userCubit.state.isOnboarded;
 
-      final isInLoginPage = state.subloc == loginLocation;
-      final isInInitializePage = state.subloc == splashLocation;
-      final isInSignupPage = state.subloc == '$loginLocation/$registerLocation';
-      final isInOnboardingPage = state.subloc == onboardLocation;
+      final isGoingToInitialize = state.subloc == splashLocation;
+      final isGoingToLogin = state.subloc == loginLocation;
+      final isGoingToRegister =
+          state.subloc == '$loginLocation/$registerLocation';
+      final isGoingToOnboard = state.subloc == onboardLocation;
 
-      if (!isInitialized && !isInInitializePage) {
+      if (!isInitialized && !isGoingToInitialize) {
         return splashLocation;
       }
 
-      if (isInitialized && !isOnboarded && !isInOnboardingPage) {
-        return onboardLocation;
-      }
-
       if (isInitialized &&
-          isOnboarded &&
           !isLoggedIn &&
-          !isInLoginPage &&
-          !isInSignupPage) {
+          !isGoingToLogin &&
+          !isGoingToRegister) {
         return loginLocation;
       }
 
-      if ((isLoggedIn && isInLoginPage) ||
-          (isInitialized && isInInitializePage) ||
-          (isOnboarded && isInOnboardingPage)) {
+      if (isLoggedIn && !isOnboarded && !isGoingToOnboard) {
+        return onboardLocation;
+      }
+
+      if ((isLoggedIn && isGoingToLogin) ||
+          (isInitialized && isGoingToInitialize) ||
+          (isOnboarded && isGoingToOnboard)) {
         return homeLocation;
       }
 
