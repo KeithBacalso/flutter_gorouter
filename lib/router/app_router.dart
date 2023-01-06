@@ -2,16 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_router/pages/favorites_page.dart';
 
 import '../cubit/user_cubit.dart';
 import '../pages/error_page.dart';
-import '../pages/home_page.dart';
+import '../pages/root_page.dart';
 import '../pages/onboarding_page.dart';
 import '../pages/sign_in_page.dart';
 import '../pages/sign_up_page.dart';
 import '../pages/splash_page.dart';
 import '../pages/view_item_page.dart';
-import '../pages/view_profile_page.dart';
+import '../pages/profile_page.dart';
 import 'route_utils.dart';
 
 class AppRouter {
@@ -27,12 +28,14 @@ class AppRouter {
       const SignUpPage();
   static Widget _onboardingPage(BuildContext context, GoRouterState state) =>
       const OnboardingPage();
-  static Widget _homePage(BuildContext context, GoRouterState state) =>
-      const HomePage();
+  static Widget _rootPage(BuildContext context, GoRouterState state) =>
+      const RootPage();
   static Widget _viewItemPage(BuildContext context, GoRouterState state) =>
       const ViewItemPage();
-  static Widget _viewProfilePage(BuildContext context, GoRouterState state) =>
-      const ViewProfilePage();
+  static Widget _favoritesPage(BuildContext context, GoRouterState state) =>
+      const FavoritesPage();
+  static Widget _profilePage(BuildContext context, GoRouterState state) =>
+      const ProfilePage();
   static Widget _errorPage(BuildContext context, GoRouterState state) =>
       const ErrorPage();
 
@@ -66,20 +69,33 @@ class AppRouter {
       GoRoute(
         path: PAGE.home.path,
         name: PAGE.home.name,
-        builder: _homePage,
+        builder: _rootPage,
         routes: [
           GoRoute(
             path: PAGE.viewItem.path,
             name: PAGE.viewItem.name,
             builder: _viewItemPage,
           ),
-          GoRoute(
-            path: PAGE.viewProfile.path,
-            name: PAGE.viewProfile.name,
-            builder: _viewProfilePage,
-          ),
         ],
       ),
+
+      //* === UNCOMMENT CODE TO TRY ===
+      //* These 3 routes home, favorites, and profile are in the Root Page bottom nav items.
+      //* We used redirect: to them instead of builder: because if we used builder:
+      //* it will only navigate the page to its single page not including the bottom nav bar items.
+      //* This is also very useful for deeplinking.
+      // GoRoute(
+      //   path: PAGE.home.path,
+      //   redirect: (context, state) => PAGE.home.path,
+      // ),
+      // GoRoute(
+      //   path: PAGE.favorites.path,
+      //   redirect: (context, state) => PAGE.home.path,
+      // ),
+      // GoRoute(
+      //   path: PAGE.profile.path,
+      //   redirect: (context, state) => PAGE.home.path,
+      // ),
 
       //* This error page inside routes is used for manually navigating the user here.
       GoRoute(
