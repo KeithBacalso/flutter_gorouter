@@ -11,6 +11,13 @@ class UserCubit extends Cubit<UserState> {
   final _onboardBox = Hive.box('onboard');
   final _loginBox = Hive.box('login');
 
+  void initialize() {
+    emit(state.copyWith(
+      isLoggedIn: _loginBox.get('isLoggedIn') ?? false,
+      isOnboarded: _onboardBox.get('isOnboard') ?? false,
+    ));
+  }
+
   void onboard() {
     _onboardBox.put('isOnboard', true);
     emit(state.copyWith(isOnboarded: true));
@@ -22,7 +29,6 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void logout() {
-    // _onboardBox.put('isOnboard', false);
     _loginBox.put('isLoggedIn', false);
     emit(state.copyWith(isLoggedIn: false));
   }

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-          create: (_) => UserCubit(),
+          create: (_) => UserCubit()..initialize(),
         
       child: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
