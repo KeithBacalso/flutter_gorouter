@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_router/pages/favorites_page.dart';
 
 import '../cubit/user_cubit.dart';
@@ -16,12 +17,10 @@ import '../pages/profile_page.dart';
 import 'route_utils.dart';
 
 class AppRouter {
-  AppRouter(this.userCubit);
-  final UserCubit userCubit;
-
   // ===== PAGES =====
-  static Widget _splashPage(BuildContext context, GoRouterState state) =>
-      const SplashPage();
+  static Widget _splashPage(BuildContext context, GoRouterState state) {
+    return const SplashPage();
+  }
   static Widget _signinPage(BuildContext context, GoRouterState state) =>
       const SignInPage();
   static Widget _signupPage(BuildContext context, GoRouterState state) =>
@@ -39,15 +38,28 @@ class AppRouter {
   static Widget _errorPage(BuildContext context, GoRouterState state) =>
       const ErrorPage();
 
+  String _initLocation() {
+    final loginBox = Hive.box('login');
+    final onboardBox = Hive.box('onboard');
+
+    final isLoggedin = loginBox.get('isLoggedIn') ?? false;
+    final isOnboarded = onboardBox.get('isOnboard') ?? false;
+
+    if (!isLoggedin) {
+      return PAGE.signin.path;
+    }
+
+    if (isLoggedin && !isOnboarded) {
+      return PAGE.onboarding.path;
+    }
+
+    return PAGE.home.path;
+  }
+
   late final GoRouter router = GoRouter(
-    refreshListenable: GoRouterRefreshStream(userCubit.stream),
+    initialLocation: _initLocation(),
     debugLogDiagnostics: true,
     routes: [
-      GoRoute(
-        path: PAGE.splash.path,
-        name: PAGE.splash.name,
-        builder: _splashPage,
-      ),
       GoRoute(
         path: PAGE.signin.path,
         name: PAGE.signin.name,
@@ -80,22 +92,21 @@ class AppRouter {
       ),
 
       //* === UNCOMMENT CODE TO TRY ===
-      //* These 3 routes home, favorites, and profile are in the Root Page bottom nav items.
+      //* These 3 routes home, favorites, and profile are the Root Page bottom nav items.
       //* We used redirect: to them instead of builder: because if we used builder:
-      //* it will only navigate the page to its single page not including the bottom nav bar items.
-      //* This is also very useful for deeplinking.
-      // GoRoute(
-      //   path: PAGE.home.path,
-      //   redirect: (context, state) => PAGE.home.path,
-      // ),
-      // GoRoute(
-      //   path: PAGE.favorites.path,
-      //   redirect: (context, state) => PAGE.home.path,
-      // ),
-      // GoRoute(
-      //   path: PAGE.profile.path,
-      //   redirect: (context, state) => PAGE.home.path,
-      // ),
+      //* it will only navigate to its single page not including the bottom nav bar items.
+      GoRoute(
+        path: PAGE.home.path,
+        redirect: (context, state) => PAGE.home.path,
+      ),
+      GoRoute(
+        path: PAGE.favorites.path,
+        redirect: (context, state) => PAGE.home.path,
+      ),
+      GoRoute(
+        path: PAGE.profile.path,
+        redirect: (context, state) => PAGE.home.path,
+      ),
 
       //* This error page inside routes is used for manually navigating the user here.
       GoRoute(
@@ -104,63 +115,5 @@ class AppRouter {
         builder: _errorPage,
       ),
     ],
-    errorBuilder: (context, state) => ErrorPage(error: state.extra.toString()),
-    redirect: (context, state) {
-      final loginLocation = PAGE.signin.path;
-      final registerLocation = PAGE.signup.path;
-      final homeLocation = PAGE.home.path;
-      final splashLocation = PAGE.splash.path;
-      final onboardLocation = PAGE.onboarding.path;
-
-      final isInitialized = userCubit.state.isInitialized;
-      final isLoggedIn = userCubit.state.isLoggedIn;
-      final isOnboarded = userCubit.state.isOnboarded;
-
-      final isGoingToInitialize = state.subloc == splashLocation;
-      final isGoingToLogin = state.subloc == loginLocation;
-      final isGoingToRegister =
-          state.subloc == '$loginLocation/$registerLocation';
-      final isGoingToOnboard = state.subloc == onboardLocation;
-
-      if (!isInitialized && !isGoingToInitialize) {
-        return splashLocation;
-      }
-
-      if (isInitialized &&
-          !isLoggedIn &&
-          !isGoingToLogin &&
-          !isGoingToRegister) {
-        return loginLocation;
-      }
-
-      if (isLoggedIn && !isOnboarded && !isGoingToOnboard) {
-        return onboardLocation;
-      }
-
-      if ((isLoggedIn && isGoingToLogin) ||
-          (isInitialized && isGoingToInitialize) ||
-          (isOnboarded && isGoingToOnboard)) {
-        return homeLocation;
-      }
-
-      return null;
-    },
   );
-}
-
-class GoRouterRefreshStream extends ChangeNotifier {
-  GoRouterRefreshStream(Stream<dynamic> stream) {
-    notifyListeners();
-    _subscription = stream.asBroadcastStream().listen(
-          (dynamic _) => notifyListeners(),
-        );
-  }
-
-  late final StreamSubscription<dynamic> _subscription;
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
-  }
 }

@@ -15,20 +15,20 @@ Future<void> main() async {
     Hive.openBox('login'),
   ]);
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
+  final appRouter = AppRouter();
+  
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => UserCubit()..initialize(),
       child: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
-          final appRouter = AppRouter(context.read<UserCubit>());
-
           return MaterialApp.router(
             routerConfig: appRouter.router,
             title: 'Flutter Demo',

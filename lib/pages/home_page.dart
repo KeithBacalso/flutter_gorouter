@@ -26,6 +26,8 @@ class HomePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               context.read<UserCubit>().logout();
+
+              context.goNamed(PAGE.signin.name);
             },
             child: const Text('Sign Out'),
           ),

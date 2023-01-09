@@ -16,6 +16,8 @@ class OnboardingPage extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             context.read<UserCubit>().onboard();
+
+            context.goNamed(PAGE.home.name);
           },
           child: const Text('Done'),
         ),

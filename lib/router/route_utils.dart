@@ -3,10 +3,6 @@ enum PAGE {
     path: '/',
     name: 'Home',
   ),
-  splash(
-    path: '/splash',
-    name: 'Splash',
-  ),
   signin(
     path: '/signin',
     name: 'Signin',

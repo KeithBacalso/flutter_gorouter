@@ -17,11 +17,24 @@ class SignInPage extends StatelessWidget {
           children: [
             const Text('Sign In Page'),
             const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () { 
-                context.read<UserCubit>().login();
+            BlocBuilder<UserCubit, UserState>(
+              builder: (context, userState) {
+                return ElevatedButton(
+                  onPressed: () {
+                    context.read<UserCubit>().login();
+
+                    final isOnboarded = userState.isOnboarded;
+
+                    if (!isOnboarded) {
+                      context.goNamed(PAGE.onboarding.name);
+                      return;
+                    }
+
+                    context.goNamed(PAGE.home.name);
+                  },
+                  child: const Text('Sign In'),
+                );
               },
-              child: const Text('Sign In'),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
