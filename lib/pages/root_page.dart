@@ -21,6 +21,16 @@ class _RootPageState extends State<RootPage> {
   late String _appbarTitle;
 
   @override
+  void initState() {
+    //* Do this when deeplinking without the use of redirect: of GoRouter 
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   context.goNamed(PAGE.viewItem.name);
+    // });
+    
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const bottomNavBarItems = <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
