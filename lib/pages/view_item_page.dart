@@ -12,12 +12,12 @@ class ViewItemPage extends StatelessWidget {
     super.key,
     required this.id,
     required this.itemName,
-    required this.samplePassedObject,
+    required this.params,
   });
 
   final int id;
   final String itemName;
-  final ViewItemParams samplePassedObject;
+  final ViewItemParams params;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,7 @@ class ViewItemPage extends StatelessWidget {
           children: [
             Text('View Item Page'),
             Text('Passed params & queryParams => $id $itemName'),
-            Text(
-                'Passed object => ${samplePassedObject.a} ${samplePassedObject.b}'),
+            Text('Passed object => ${params.a} ${params.b}'),
           ],
         ),
       ),

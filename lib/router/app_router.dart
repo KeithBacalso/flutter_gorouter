@@ -34,7 +34,7 @@ class AppRouter {
       ViewItemPage(
         id: int.parse(state.params['id']!),
         itemName: state.queryParams['itemName'] ?? '',
-        samplePassedObject: state.extra as ViewItemParams,
+        params: state.extra as ViewItemParams,
       );
   static Widget _errorPage(BuildContext context, GoRouterState state) =>
       ErrorPage(error: state.error.toString());
