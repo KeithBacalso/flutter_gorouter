@@ -15,7 +15,6 @@ class UserCubit extends Cubit<UserState> {
   // final _onboardBox = Hive.box('onboard');
   // final _loginBox = Hive.box('login');
 
-  final _userHive = UserHive();
   final _userBox = HiveBox.getUser();
 
   Future<void> initialize() async {
@@ -28,24 +27,26 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void onboard() {
-    _userHive.isOnboarded = true;
-    _userBox.put('isOnboarded', _userHive);
+    //* UserHive is in each of the methods login and logout too.
+    //* This is because if we only have one instance above Hive will give error.
+    final userHive = UserHive()..isOnboarded = true;
+    _userBox.put('isOnboarded', userHive);
 
     // _userBox.put('isOnboard', _userHive);
     emit(state.copyWith(isOnboarded: true));
   }
 
   void login() {
-    _userHive.isLoggedIn = true;
-    _userBox.put('isLoggedIn', _userHive);
+    final userHive = UserHive()..isLoggedIn = true;
+    _userBox.put('isLoggedIn', userHive);
 
     // _loginBox.put('isLoggedIn', true);
     emit(state.copyWith(isLoggedIn: true));
   }
 
   void logout() {
-    _userHive.isLoggedIn = false;
-    _userBox.put('isLoggedIn', _userHive);
+    final userHive = UserHive()..isLoggedIn = false;
+    _userBox.put('isLoggedIn', userHive);
 
     // _loginBox.put('isLoggedIn', false);
     emit(state.copyWith(isLoggedIn: false));
