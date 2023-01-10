@@ -18,6 +18,10 @@ class OnboardingPage extends StatelessWidget {
             context.read<UserCubit>().onboard();
 
             context.goNamed(PAGE.home.name);
+
+            //* === UNCOMMENT CODE TO TRY ===
+            //* Try uncommenting this code for errorBuilder: of GoRouter to work.
+            // context.go('${PAGE.home.path}/asdf');
           },
           child: const Text('Done'),
         ),

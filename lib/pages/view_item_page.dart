@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SamplePassedObject {
-  SamplePassedObject({required this.a, required this.b});
+class ViewItemParams {
+  ViewItemParams({required this.a, required this.b});
 
   final String a;
   final int b;
@@ -17,7 +17,7 @@ class ViewItemPage extends StatelessWidget {
 
   final int id;
   final String itemName;
-  final SamplePassedObject samplePassedObject;
+  final ViewItemParams samplePassedObject;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,8 @@ class ViewItemPage extends StatelessWidget {
           children: [
             Text('View Item Page'),
             Text('Passed params & queryParams => $id $itemName'),
-            Text('Passed object => ${samplePassedObject.a} ${samplePassedObject.b}'),
+            Text(
+                'Passed object => ${samplePassedObject.a} ${samplePassedObject.b}'),
           ],
         ),
       ),

@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
                 PAGE.viewItem.name,
                 params: {'id': '123'},
                 queryParams: {'itemName': 'Love'},
-                extra: SamplePassedObject(a: 'Keith', b: 24),
+                extra: ViewItemParams(a: 'Keith', b: 24),
               );
             },
             child: const Text('View Item'),

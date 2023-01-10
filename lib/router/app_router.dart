@@ -28,16 +28,16 @@ class AppRouter {
       const SignUpPage();
   static Widget _onboardingPage(BuildContext context, GoRouterState state) =>
       const OnboardingPage();
-  static Widget _rootPage(BuildContext context, GoRouterState state) =>
+  static Widget _homePage(BuildContext context, GoRouterState state) =>
       const RootPage();
   static Widget _viewItemPage(BuildContext context, GoRouterState state) =>
       ViewItemPage(
         id: int.parse(state.params['id']!),
         itemName: state.queryParams['itemName'] ?? '',
-        samplePassedObject: state.extra as SamplePassedObject,
+        samplePassedObject: state.extra as ViewItemParams,
       );
   static Widget _errorPage(BuildContext context, GoRouterState state) =>
-      const ErrorPage();
+      ErrorPage(error: state.error.toString());
 
   String _initLocation() {
     final loginBox = Hive.box('login');
@@ -80,16 +80,9 @@ class AppRouter {
         builder: _onboardingPage,
       ),
       GoRoute(
-        path: PAGE.home.path,
-        name: PAGE.home.name,
-        builder: _rootPage,
-        routes: [
-          GoRoute(
-            path: PAGE.viewItem.path,
-            name: PAGE.viewItem.name,
-            builder: _viewItemPage,
-          ),
-        ],
+        path: PAGE.root.path,
+        name: PAGE.root.name,
+        redirect: (context, state) => PAGE.home.path,
       ),
 
       //* === UNCOMMENT CODE TO TRY ===
@@ -98,14 +91,24 @@ class AppRouter {
       //* it will only navigate to its single page not including the bottom nav bar items.
       GoRoute(
         path: PAGE.home.path,
-        redirect: (context, state) => PAGE.home.path,
+        name: PAGE.home.name,
+        builder: _homePage,
+        routes: [
+          GoRoute(
+            path: PAGE.viewItem.path,
+            name: PAGE.viewItem.name,
+            builder: _viewItemPage,
+          ),
+        ],
       ),
       GoRoute(
         path: PAGE.favorites.path,
+        name: PAGE.favorites.name,
         redirect: (context, state) => PAGE.home.path,
       ),
       GoRoute(
         path: PAGE.profile.path,
+        name: PAGE.profile.name,
         redirect: (context, state) => PAGE.home.path,
       ),
 
@@ -116,5 +119,6 @@ class AppRouter {
         builder: _errorPage,
       ),
     ],
+    errorBuilder: _errorPage,
   );
 }

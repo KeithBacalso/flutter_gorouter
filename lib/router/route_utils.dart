@@ -1,7 +1,7 @@
 enum PAGE {
-  home(
+  root(
     path: '/',
-    name: 'Home',
+    name: 'Root',
   ),
   signin(
     path: '/signin',
@@ -14,6 +14,10 @@ enum PAGE {
   onboarding(
     path: '/onboarding',
     name: 'Onboarding',
+  ),
+  home(
+    path: '/home',
+    name: 'Home',
   ),
   viewItem(
     path: 'viewItem/:id',
