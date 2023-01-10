@@ -21,6 +21,7 @@ class AppRouter {
   static Widget _splashPage(BuildContext context, GoRouterState state) {
     return const SplashPage();
   }
+
   static Widget _signinPage(BuildContext context, GoRouterState state) =>
       const SignInPage();
   static Widget _signupPage(BuildContext context, GoRouterState state) =>
@@ -30,11 +31,11 @@ class AppRouter {
   static Widget _rootPage(BuildContext context, GoRouterState state) =>
       const RootPage();
   static Widget _viewItemPage(BuildContext context, GoRouterState state) =>
-      const ViewItemPage();
-  static Widget _favoritesPage(BuildContext context, GoRouterState state) =>
-      const FavoritesPage();
-  static Widget _profilePage(BuildContext context, GoRouterState state) =>
-      const ProfilePage();
+      ViewItemPage(
+        id: int.parse(state.params['id']!),
+        itemName: state.queryParams['itemName'] ?? '',
+        samplePassedObject: state.extra as SamplePassedObject,
+      );
   static Widget _errorPage(BuildContext context, GoRouterState state) =>
       const ErrorPage();
 

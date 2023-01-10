@@ -16,7 +16,7 @@ enum PAGE {
     name: 'Onboarding',
   ),
   viewItem(
-    path: 'viewItem',
+    path: 'viewItem/:id',
     name: 'ViewItem',
   ),
   favorites(

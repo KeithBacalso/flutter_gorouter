@@ -22,11 +22,11 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
-    //* Do this when deeplinking without the use of redirect: of GoRouter 
+    //* Do this when deeplinking without the use of redirect: of GoRouter
     // WidgetsBinding.instance.addPostFrameCallback((_) async {
     //   context.goNamed(PAGE.viewItem.name);
     // });
-    
+
     super.initState();
   }
 
@@ -63,7 +63,15 @@ class _RootPageState extends State<RootPage> {
       ),
       body: IndexedStack(
         index: _selectedIndex,
-        children: const [HomePage(), FavoritesPage(), ProfilePage()],
+        children: const [
+          HomePage(),
+          FavoritesPage(
+            name: 'Nikki',
+            gender: 'Female',
+            age: 29,
+          ),
+          ProfilePage(),
+        ],
       ),
     );
   }
