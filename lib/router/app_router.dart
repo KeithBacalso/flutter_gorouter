@@ -6,6 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_router/pages/favorites_page.dart';
 
 import '../cubit/user_cubit.dart';
+import '../hive/hive_box.dart';
+import '../hive/user/user_hive.dart';
 import '../pages/error_page.dart';
 import '../pages/root_page.dart';
 import '../pages/onboarding_page.dart';
@@ -40,11 +42,16 @@ class AppRouter {
       ErrorPage(error: state.error.toString());
 
   String _initLocation() {
-    final loginBox = Hive.box('login');
-    final onboardBox = Hive.box('onboard');
+    //* Use this uncommented code if you are not using class generator from Hive.
+    // final loginBox = Hive.box('login');
+    // final onboardBox = Hive.box('onboard');
 
-    final isLoggedin = loginBox.get('isLoggedIn') ?? false;
-    final isOnboarded = onboardBox.get('isOnboard') ?? false;
+    // final isLoggedin = loginBox.get('isLoggedIn') ?? false;
+    // final isOnboarded = onboardBox.get('isOnboard') ?? false;
+
+    final userBox = HiveBox.getUser();
+    final isLoggedin = userBox.get('isLoggedIn')?.isLoggedIn ?? false;
+    final isOnboarded = userBox.get('isOnboarded')?.isOnboarded ?? false;
 
     if (!isLoggedin) {
       return PAGE.signin.path;

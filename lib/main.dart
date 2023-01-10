@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:my_router/cubit/user_cubit.dart';
 
+import 'cubit/user_cubit.dart';
+import 'hive/user/user_hive.dart';
 import 'router/app_router.dart';
 
 Future<void> main() async {
@@ -10,10 +11,15 @@ Future<void> main() async {
 
   await Hive.initFlutter();
 
-  await Future.wait([
-    Hive.openBox('onboard'),
-    Hive.openBox('login'),
-  ]);
+  Hive.registerAdapter(UserHiveAdapter());
+  await Hive.openBox<UserHive>('user');
+
+  //* Use this commented code if you are not using class generator from Hive.
+  //* Otherwise do the above code registerAdapter thing.
+  // await Future.wait([
+  //   Hive.openBox('onboard'),
+  //   Hive.openBox('login'),
+  // ]);
 
   runApp(MyApp());
 }
