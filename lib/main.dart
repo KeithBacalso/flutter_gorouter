@@ -22,21 +22,17 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   final appRouter = AppRouter();
-  
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => UserCubit()..initialize(),
-      child: BlocBuilder<UserCubit, UserState>(
-        builder: (context, state) {
-          return MaterialApp.router(
-            routerConfig: appRouter.router,
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-          );
-        },
+      child: MaterialApp.router(
+        routerConfig: appRouter.router,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
       ),
     );
   }
