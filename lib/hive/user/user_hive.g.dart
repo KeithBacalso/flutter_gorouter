@@ -16,9 +16,10 @@ class UserHiveAdapter extends TypeAdapter<UserHive> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return UserHive()
-      ..isLoggedIn = fields[0] as bool
-      ..isOnboarded = fields[1] as bool;
+    return UserHive(
+      isLoggedIn: fields[0] as bool?,
+      isOnboarded: fields[1] as bool?,
+    );
   }
 
   @override

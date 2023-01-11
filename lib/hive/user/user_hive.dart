@@ -7,7 +7,9 @@ part 'user_hive.g.dart';
 @HiveType(typeId: 0)
 class UserHive extends HiveObject {
   @HiveField(0)
-  late bool isLoggedIn = false;
+  late bool? isLoggedIn = false;
   @HiveField(1)
-  late bool isOnboarded = false;
+  late bool? isOnboarded = false;
+
+  UserHive({this.isLoggedIn, this.isOnboarded});
 }

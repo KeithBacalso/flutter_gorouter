@@ -28,8 +28,8 @@ class UserCubit extends Cubit<UserState> {
 
   void onboard() {
     //* UserHive is in each of the methods login and logout too.
-    //* This is because if we only have one instance above Hive will give error.
-    final userHive = UserHive()..isOnboarded = true;
+    //* This is because if we only have one instance above, Hive will give error.
+    final userHive = UserHive(isOnboarded: true);
     _userBox.put('isOnboarded', userHive);
 
     // _userBox.put('isOnboard', _userHive);
@@ -37,7 +37,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void login() {
-    final userHive = UserHive()..isLoggedIn = true;
+    final userHive = UserHive(isLoggedIn: true);
     _userBox.put('isLoggedIn', userHive);
 
     // _loginBox.put('isLoggedIn', true);
@@ -45,7 +45,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void logout() {
-    final userHive = UserHive()..isLoggedIn = false;
+    final userHive = UserHive(isLoggedIn: false);
     _userBox.put('isLoggedIn', userHive);
 
     // _loginBox.put('isLoggedIn', false);
