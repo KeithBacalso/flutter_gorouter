@@ -19,28 +19,46 @@ import '../pages/profile_page.dart';
 import 'route_utils.dart';
 
 class AppRouter {
-  // ===== PAGES =====
+  //* ===== PAGES =====
   static Widget _splashPage(BuildContext context, GoRouterState state) {
     return const SplashPage();
   }
 
-  static Widget _signinPage(BuildContext context, GoRouterState state) =>
-      const SignInPage();
-  static Widget _signupPage(BuildContext context, GoRouterState state) =>
-      const SignUpPage();
-  static Widget _onboardingPage(BuildContext context, GoRouterState state) =>
-      const OnboardingPage();
-  static Widget _homePage(BuildContext context, GoRouterState state) =>
-      const RootPage();
-  static Widget _viewItemPage(BuildContext context, GoRouterState state) =>
-      ViewItemPage(
-        id: int.parse(state.params['id']!),
-        itemName: state.queryParams['itemName'] ?? '',
-        params: state.extra as ViewItemParams,
-      );
-  static Widget _errorPage(BuildContext context, GoRouterState state) =>
-      ErrorPage(error: state.error.toString());
+  static Widget _signinPage(BuildContext context, GoRouterState state) {
+    return const SignInPage();
+  }
 
+  static Widget _signupPage(BuildContext context, GoRouterState state) {
+    return const SignUpPage();
+  }
+
+  static Widget _onboardingPage(BuildContext context, GoRouterState state) {
+    return const OnboardingPage();
+  }
+
+  static Widget _homePage(BuildContext context, GoRouterState state) {
+    return const RootPage();
+  }
+
+  static Widget _viewItemPage(BuildContext context, GoRouterState state) {
+    return ViewItemPage(
+      id: int.parse(state.params['id']!),
+      itemName: state.queryParams['itemName'] ?? '',
+      params: state.extra as ViewItemParams,
+    );
+  }
+
+  static Widget _errorPage(BuildContext context, GoRouterState state) {
+    return ErrorPage(error: state.error.toString());
+  }
+
+  //* === REDIRECTIONS ===
+  static FutureOr<String?> _redirectToHome(
+      BuildContext context, GoRouterState state) {
+    return PAGE.home.path;
+  }
+
+  //* === ROUTER ===
   String _initLocation() {
     //* Use this uncommented code if you are not using class generator from Hive.
     // final loginBox = Hive.box('login');
@@ -89,7 +107,7 @@ class AppRouter {
       GoRoute(
         path: PAGE.root.path,
         name: PAGE.root.name,
-        redirect: (context, state) => PAGE.home.path,
+        redirect: _redirectToHome,
       ),
 
       //* === UNCOMMENT CODE TO TRY ===
@@ -111,12 +129,12 @@ class AppRouter {
       GoRoute(
         path: PAGE.favorites.path,
         name: PAGE.favorites.name,
-        redirect: (context, state) => PAGE.home.path,
+        redirect: _redirectToHome,
       ),
       GoRoute(
         path: PAGE.profile.path,
         name: PAGE.profile.name,
-        redirect: (context, state) => PAGE.home.path,
+        redirect: _redirectToHome,
       ),
 
       //* This error page inside routes is used for manually navigating the user here.
